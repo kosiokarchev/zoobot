@@ -5,7 +5,9 @@ from torch import nn
 import pytorch_lightning as pl
 from torchmetrics import Accuracy
 
-from zoobot.pytorch.estimators import efficientnet_standard, efficientnet_custom, resnet_torchvision_custom, custom_layers
+from zoobot.pytorch.estimators import (
+    efficientnet_standard, efficientnet_custom, maxvit,
+    resnet_torchvision_custom, custom_layers)
 from zoobot.pytorch.training import losses
 
 
@@ -171,11 +173,14 @@ def select_base_architecture_func_from_name(base_architecture):
     elif base_architecture == 'resnet_torchvision':
         get_architecture = resnet_torchvision_custom.get_resnet  # only supports color
         representation_dim = 2048
+    elif base_architecture == 'maxvit':
+        get_architecture = maxvit.get_maxvit
+        representation_dim = 1280
     else:
         raise ValueError(
             'Model architecture not recognised: got model={}, expected one of [efficientnet, efficinetnet_b2, resnet_detectron, resnet_torchvision]'.format(base_architecture))
 
-    return get_architecture,representation_dim
+    return get_architecture, representation_dim
 
 
 
