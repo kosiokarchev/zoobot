@@ -178,6 +178,9 @@ def train_default_zoobot_from_scratch(
     logging.info((trainer.training_type_plugin, trainer.world_size,
                  trainer.local_rank, trainer.global_rank, trainer.node_rank))
 
+
+    wandb_logger.watch(lightning_model)
+    
     trainer.fit(lightning_model, datamodule)
 
     # can test as per the below, but note that datamodule must have a test dataset attribute as per pytorch lightning docs.
