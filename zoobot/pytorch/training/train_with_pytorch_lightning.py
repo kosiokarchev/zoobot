@@ -163,7 +163,6 @@ def train_default_zoobot_from_scratch(
     ]
 
     trainer = pl.Trainer(
-        log_every_n_steps=200,
         accelerator=accelerator,
         gpus=gpus,  # per node
         num_nodes=nodes,
