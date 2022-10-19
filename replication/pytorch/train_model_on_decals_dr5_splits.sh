@@ -8,13 +8,13 @@
 #SBATCH --exclusive   # only one task per node
 #SBATCH --ntasks 1
 #SBATCH --cpus-per-task=16
-#SBATCH --exclude compute-0-6
+#SBATCH --exclude compute-0-6,compute-0-113,compute-0-112
 pwd; hostname; date
 
 nvidia-smi
 
 ZOOBOT_DIR=/share/nas2/walml/repos/zoobot-kosio
-PYTHON=/share/nas2/walml/miniconda3/envs/timm/bin/python
+PYTHON=/share/nas2/walml/miniconda3/envs/zoobot/bin/python
 
 RESULTS_DIR=/share/nas2/walml/repos/gz-decals-classifiers/results
 
@@ -22,7 +22,7 @@ RESULTS_DIR=/share/nas2/walml/repos/gz-decals-classifiers/results
 # some other possible configurations, testing other architectures:
 
 ARCHITECTURE='maxvit:onelayer'
-BATCH_SIZE=64
+BATCH_SIZE=32
 GPUS=1
 
 # ARCHITECTURE='efficientnet'
