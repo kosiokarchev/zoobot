@@ -177,6 +177,14 @@ def select_base_architecture_func_from_name(base_architecture):
         import re
         from functools import partial
 
+        # example MaxViT config strings:
+        #   - "maxvit" -- the default model (tiny_224)
+        #   - "maxvit:VARIANT" -- named variant in maxvit_configs
+        #   - "maxvit?depths=(5,), channels=(128,)" -- pass arbitrary keyword
+        #        arguments to the constructor. Everything after the "?" is
+        #        evaluated inside a dict(...) constructor.
+        #   - "maxvit:onelayer?channels=(256,), embed_dim=128" -- the two styles
+        #        can be combined. Keyword arguments override the variant setting
         m = re.match(r'^maxvit(?::(?P<variant>.*?))?(?:\?(?P<kwargs>.*))?$', base_architecture)
         if m is not None:
             variant = m.group('variant')
