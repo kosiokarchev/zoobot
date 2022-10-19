@@ -660,7 +660,7 @@ class MaxViT(nn.Module):
         Returns:
             output (torch.Tensor): Image features of the backbone.
         """
-        wandb.log({'input_image': input[0]})
+        wandb.log({'input_image': input[0].transpose(0, 2)})  # channels last
         output = input
         for stage_n, stage in enumerate(self.stages):
             output = stage(output)
