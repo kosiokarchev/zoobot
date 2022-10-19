@@ -1,6 +1,7 @@
 import logging
 from typing import Callable, List, Optional, Set, Tuple, Type, Union
 
+import wandb
 import torch
 from timm.models.efficientnet_blocks import DepthwiseSeparableConv, SqueezeExcite
 from timm.models.layers import drop_path, DropPath, Mlp, trunc_normal_
@@ -660,8 +661,9 @@ class MaxViT(nn.Module):
             output (torch.Tensor): Image features of the backbone.
         """
         output = input
-        for stage in self.stages:
+        for stage_n, stage in enumerate(self.stages):
             output = stage(output)
+            wandb.log('output_stage_{}'.format(stage_n), output[0])
         return output
 
     def forward_head(self, input: torch.Tensor, pre_logits: bool = False):
