@@ -656,11 +656,11 @@ class MaxViT(nn.Module):
 
         Args:
             input (torch.Tensor): Input images of the shape [B, C, H, W].
+            Mike - actually, I think this is *after* the stem - see self.forward
 
         Returns:
             output (torch.Tensor): Image features of the backbone.
         """
-        wandb.log({'input_image': input[0].transpose(0, 2)})  # channels last
         output = input
         for stage_n, stage in enumerate(self.stages):
             output = stage(output)
@@ -669,6 +669,7 @@ class MaxViT(nn.Module):
 
     def forward_head(self, input: torch.Tensor, pre_logits: bool = False):
         """ Forward pass of classification head.
+        Mike - self.head() not usually applied in Zoobot, pre_logits is True
 
         Args:
             input (torch.Tensor): Input features
@@ -681,6 +682,7 @@ class MaxViT(nn.Module):
             input = input.mean(dim=(2, 3))
         elif self.global_pool == "max":
             input = torch.amax(input, dim=(2, 3))
+        wandb.log({'representation_before_head': input})
         return input if pre_logits else self.head(input)
 
     def forward(self, input: torch.Tensor) -> torch.Tensor:
@@ -692,10 +694,14 @@ class MaxViT(nn.Module):
         Returns:
             output (torch.Tensor): Classification output of the shape [B, num_classes].
         """
-        return self.forward_head(self.forward_features(self.stem(input)))
+        wandb.log({'input_image': input[0].transpose(0, 2)})  # channels last
+        after_stem = self.stem(input)
+        wandb.log({'after_stem': after_stem})
+        return self.forward_head(self.forward_features(after_stem))
 
 
 maxvit_configs = {
+    'tiniest_224': dict(depths=(2, 2, 5, 2), channels=(32, 32, 64, 64), embed_dim=32),
     'tinier_224': dict(depths=(2, 2, 5, 2), channels=(32, 64, 128, 128), embed_dim=64),
     'tiny_224': dict(depths=(2, 2, 5, 2), channels=(64, 128, 256, 512), embed_dim=64),
     'small_224': dict(depths=(2, 2, 5, 2), channels=(96, 128, 256, 512), embed_dim=64),
