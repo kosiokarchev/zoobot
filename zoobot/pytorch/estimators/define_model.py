@@ -189,7 +189,7 @@ def select_base_architecture_func_from_name(base_architecture):
         m = re.match(r'^maxvit(?::(?P<variant>.*?))?(?:\?(?P<kwargs>.*))?$', base_architecture)
         if m is not None:
             variant = m.group('variant')
-            kwargs = eval(f'dict({m.group("kwargs")})')
+            kwargs = eval(f'dict({m.group("kwargs") or ""})')
             logging.info(f'Requesting a MaxViT variant="{variant}" with kwargs={kwargs}.')
             get_architecture = partial(maxvit.get_maxvit, variant=variant, **kwargs)
             representation_dim = 1280
