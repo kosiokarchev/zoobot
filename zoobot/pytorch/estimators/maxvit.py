@@ -663,7 +663,7 @@ class MaxViT(nn.Module):
         output = input
         for stage_n, stage in enumerate(self.stages):
             output = stage(output)
-            wandb.log('output_stage_{}'.format(stage_n), output[0])
+            wandb.log({'output_stage_{}'.format(stage_n): output[0]})
         return output
 
     def forward_head(self, input: torch.Tensor, pre_logits: bool = False):
