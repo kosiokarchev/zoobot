@@ -35,6 +35,11 @@ if __name__ == '__main__':
                         default=False, action='store_true')
     args = parser.parse_args()
 
+    logging.basicConfig(
+        level=logging.INFO,
+        format='%(asctime)s %(levelname)s: %(message)s'
+    )
+
     question_answer_pairs = label_metadata.decals_dr5_ortho_pairs  # decals dr5 only
     dependencies = label_metadata.decals_ortho_dependencies
     schema = schemas.Schema(question_answer_pairs, dependencies)
