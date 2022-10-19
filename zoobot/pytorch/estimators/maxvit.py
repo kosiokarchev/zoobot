@@ -660,6 +660,7 @@ class MaxViT(nn.Module):
         Returns:
             output (torch.Tensor): Image features of the backbone.
         """
+        wandb.log({'input_image', input[0]})
         output = input
         for stage_n, stage in enumerate(self.stages):
             output = stage(output)
@@ -695,6 +696,7 @@ class MaxViT(nn.Module):
 
 
 maxvit_configs = {
+    'tinier_224': dict(depths=(2, 2, 5, 2), channels=(32, 64, 128, 128), embed_dim=64),
     'tiny_224': dict(depths=(2, 2, 5, 2), channels=(64, 128, 256, 512), embed_dim=64),
     'small_224': dict(depths=(2, 2, 5, 2), channels=(96, 128, 256, 512), embed_dim=64),
     'base_224': dict(depths=(2, 6, 14, 2), channels=(96, 192, 384, 768), embed_dim=64),
