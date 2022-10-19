@@ -1,3 +1,4 @@
+import logging
 from typing import Callable, List, Optional, Set, Tuple, Type, Union
 
 import torch
@@ -713,7 +714,11 @@ def get_maxvit(
     assert not use_imagenet_weights
     assert not include_top
 
+    maxvit_args = {**maxvit_configs[variant], **kwargs}
+
+    logging.info(maxvit_args)
+
     return MaxViT(
         in_channels=input_channels, num_classes=1280,
-        **{**maxvit_configs[variant], **kwargs}
+        **maxvit_args
     )

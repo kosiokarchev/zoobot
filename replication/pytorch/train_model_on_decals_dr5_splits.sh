@@ -8,7 +8,6 @@
 #SBATCH --exclusive   # only one task per node
 #SBATCH --ntasks 1
 #SBATCH --cpus-per-task=16
-#SBATCH --exclude compute-0-6,compute-0-113,compute-0-112
 pwd; hostname; date
 
 nvidia-smi
@@ -21,7 +20,7 @@ RESULTS_DIR=/share/nas2/walml/repos/gz-decals-classifiers/results
 
 # some other possible configurations, testing other architectures:
 
-ARCHITECTURE='maxvit:onelayer'
+ARCHITECTURE='maxvit:tiny_224'
 BATCH_SIZE=32
 GPUS=1
 
@@ -56,7 +55,8 @@ $PYTHON $ZOOBOT_DIR/replication/pytorch/train_model_on_decals_dr5_splits.py \
     --resize-size 224 \
     --batch-size $BATCH_SIZE \
     --gpus $GPUS \
-    --mixed-precision
+    --mixed-precision \
+    --debug
     
     #  \
     # --color
