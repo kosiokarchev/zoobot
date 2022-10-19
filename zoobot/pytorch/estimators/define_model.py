@@ -174,6 +174,7 @@ def select_base_architecture_func_from_name(base_architecture):
         get_architecture = resnet_torchvision_custom.get_resnet  # only supports color
         representation_dim = 2048
     else:
+        logging.info('Checking for maxvit config')
         import re
         from functools import partial
 
