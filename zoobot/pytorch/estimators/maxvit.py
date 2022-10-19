@@ -691,14 +691,29 @@ class MaxViT(nn.Module):
         return self.forward_head(self.forward_features(self.stem(input)))
 
 
+maxvit_configs = {
+    'tiny_224': dict(depths=(2, 2, 5, 2), channels=(64, 128, 256, 512), embed_dim=64),
+    'small_224': dict(depths=(2, 2, 5, 2), channels=(96, 128, 256, 512), embed_dim=64),
+    'base_224': dict(depths=(2, 6, 14, 2), channels=(96, 192, 384, 768), embed_dim=64),
+    'large_224': dict(depths=(2, 6, 14, 2), channels=(128, 256, 512, 1024), embed_dim=128),
+    'onelayer': dict(depths=(5,), channels=(128,)),
+}
+
+maxvit_configs[None] = maxvit_configs['tiny_224']
+
+
 def get_maxvit(
     input_channels,
     stochastic_depth_prob: float = 0.2,
     use_imagenet_weights: bool = False,
     include_top: bool = True,
-    progress: bool = True
+    progress: bool = True,
+    *, variant=None, **kwargs
 ):
     assert not use_imagenet_weights
     assert not include_top
 
-    return MaxViT(in_channels=input_channels, num_classes=1280)
+    return MaxViT(
+        in_channels=input_channels, num_classes=1280,
+        **{**maxvit_configs[variant], **kwargs}
+    )

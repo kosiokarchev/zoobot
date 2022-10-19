@@ -173,12 +173,20 @@ def select_base_architecture_func_from_name(base_architecture):
     elif base_architecture == 'resnet_torchvision':
         get_architecture = resnet_torchvision_custom.get_resnet  # only supports color
         representation_dim = 2048
-    elif base_architecture == 'maxvit':
-        get_architecture = maxvit.get_maxvit
-        representation_dim = 1280
     else:
-        raise ValueError(
-            'Model architecture not recognised: got model={}, expected one of [efficientnet, efficinetnet_b2, resnet_detectron, resnet_torchvision]'.format(base_architecture))
+        import re
+        from functools import partial
+
+        m = re.match(r'^maxvit(?::(?P<variant>.*?))?(?:\?(?P<kwargs>.*))?$', base_architecture)
+        if m is not None:
+            variant = m.group('variant')
+            kwargs = eval(f'dict({m.group("kwargs")})')
+            logging.info(f'Requesting a MaxViT variant="{variant}" with kwargs={kwargs}.')
+            get_architecture = partial(maxvit.get_maxvit, variant=variant, **kwargs)
+            representation_dim = 1280
+        else:
+            raise ValueError(
+                'Model architecture not recognised: got model={}, expected one of [efficientnet, efficinetnet_b2, resnet_detectron, resnet_torchvision]'.format(base_architecture))
 
     return get_architecture, representation_dim
 
