@@ -699,9 +699,10 @@ class MaxViT(nn.Module):
         wandb.log({'after_stem': after_stem})
         return self.forward_head(self.forward_features(after_stem))
 
-
+# embed_dim is channels in stem stage
 maxvit_configs = {
-    'tiniest_224': dict(depths=(2, 2, 5, 2), channels=(32, 32, 64, 64), embed_dim=64),
+    'debug_224': dict(depths=(1, 1, 1, 1), channels=(16, 16, 16, 16), embed_dim=16),
+    'tiniest_224': dict(depths=(2, 2, 5, 2), channels=(32, 32, 64, 64), embed_dim=32),
     'tinier_224': dict(depths=(2, 2, 5, 2), channels=(32, 64, 128, 128), embed_dim=64),
     'tiny_224': dict(depths=(2, 2, 5, 2), channels=(64, 128, 256, 512), embed_dim=64),
     'small_224': dict(depths=(2, 2, 5, 2), channels=(96, 128, 256, 512), embed_dim=64),

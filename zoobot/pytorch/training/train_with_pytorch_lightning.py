@@ -179,7 +179,7 @@ def train_default_zoobot_from_scratch(
                  trainer.local_rank, trainer.global_rank, trainer.node_rank))
 
 
-    wandb_logger.watch(lightning_model)
+    wandb_logger.watch(lightning_model, log='parameters')
 
     trainer.fit(lightning_model, datamodule)
 

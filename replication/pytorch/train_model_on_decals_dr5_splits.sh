@@ -20,8 +20,8 @@ RESULTS_DIR=/share/nas2/walml/repos/gz-decals-classifiers/results
 
 # some other possible configurations, testing other architectures:
 
-ARCHITECTURE='maxvit:tiniest_224'
-BATCH_SIZE=128
+ARCHITECTURE='maxvit:debug_224'
+BATCH_SIZE=64
 GPUS=1
 
 # ARCHITECTURE='efficientnet'
