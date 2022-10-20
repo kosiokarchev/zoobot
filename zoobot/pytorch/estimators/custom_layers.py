@@ -5,7 +5,7 @@ from torch import Tensor, nn
 class PermaDropout(nn.modules.dropout._DropoutNd):
     # https://pytorch.org/docs/stable/_modules/torch/nn/modules/dropout.html#Dropout
     def forward(self, x: Tensor) -> Tensor:
-            return nn.functional.dropout(input, self.p, True, self.inplace)  # simply replaced self.training with True
+            return nn.functional.dropout(x, self.p, True, self.inplace)  # simply replaced self.training with True
 
 class WandBLog(nn.Module):
 
@@ -17,8 +17,8 @@ class WandBLog(nn.Module):
     # log and then return
     def forward(self, x) -> Tensor:
         if self.batch_to_image:
-            wandb.log({self.log_string: x.transpose(3, 1)})
-            # wandb.log({self.log_string: x[0].transpose(2, 0)})
+            # wandb.log({self.log_string: x.transpose(3, 1)})
+            wandb.log({self.log_string: wandb.Image(x[0].transpose(2, 0))})
         else:    
             wandb.log({self.log_string: x})
         return x
