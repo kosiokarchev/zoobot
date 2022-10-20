@@ -44,7 +44,7 @@ GPUS=2
 # TODO need to update to ignore stochastic_depth_prob arg
 
 # be sure to add _color if appropriate
-EXPERIMENT_DIR=$RESULTS_DIR/pytorch/dr5/${ARCHITECTURE}_maxvit
+EXPERIMENT_DIR=$RESULTS_DIR/pytorch/dr5/${ARCHITECTURE}_maxvit_2xgpu
 
 DATA_DIR=/share/nas2/walml/repos/_data/decals_dr5
 
