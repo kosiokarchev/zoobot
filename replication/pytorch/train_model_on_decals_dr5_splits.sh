@@ -20,9 +20,9 @@ RESULTS_DIR=/share/nas2/walml/repos/gz-decals-classifiers/results
 
 # some other possible configurations, testing other architectures:
 
-ARCHITECTURE='maxvit:tiniest_224'
+ARCHITECTURE='maxvit:tiny_224'
 BATCH_SIZE=64
-GPUS=2
+GPUS=1
 
 # ARCHITECTURE='efficientnet'
 # BATCH_SIZE=512
@@ -44,7 +44,7 @@ GPUS=2
 # TODO need to update to ignore stochastic_depth_prob arg
 
 # be sure to add _color if appropriate
-EXPERIMENT_DIR=$RESULTS_DIR/pytorch/dr5/${ARCHITECTURE}_maxvit_2xgpu
+EXPERIMENT_DIR=$RESULTS_DIR/pytorch/dr5/${ARCHITECTURE}_maxvit_tiny_1xgpu
 
 DATA_DIR=/share/nas2/walml/repos/_data/decals_dr5
 DATASET=decals_dr5
