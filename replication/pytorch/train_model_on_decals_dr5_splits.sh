@@ -60,8 +60,7 @@ $PYTHON $ZOOBOT_DIR/replication/pytorch/train_model_on_decals_dr5_splits.py \
     --resize-size 224 \
     --batch-size $BATCH_SIZE \
     --gpus $GPUS \
-    --mixed-precision \
-    --debug
+    --mixed-precision
     
     #  \
     # --color
