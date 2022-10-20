@@ -17,7 +17,7 @@ class WandBLog(nn.Module):
     # log and then return
     def forward(self, x) -> Tensor:
         if self.batch_to_image:
-            # wandb.log({self.log_string: x.transpose(3, 1)})
+            # wandb understands how to convert batch to images
             wandb.log({self.log_string: wandb.Image(x)})
         else:    
             wandb.log({self.log_string: x})
