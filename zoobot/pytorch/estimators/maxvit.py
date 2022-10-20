@@ -664,7 +664,7 @@ class MaxViT(nn.Module):
         output = input
         for stage_n, stage in enumerate(self.stages):
             output = stage(output)
-            # wandb.log({'output_stage_{}'.format(stage_n): output[0]})
+            wandb.log({'output_stage_{}'.format(stage_n): output[0]})
         return output
 
     def forward_head(self, input: torch.Tensor, pre_logits: bool = False):
@@ -682,7 +682,7 @@ class MaxViT(nn.Module):
             input = input.mean(dim=(2, 3))
         elif self.global_pool == "max":
             input = torch.amax(input, dim=(2, 3))
-        # wandb.log({'representation_before_head': input})
+        wandb.log({'representation_before_head': input})
         return input if pre_logits else self.head(input)
 
     def forward(self, input: torch.Tensor) -> torch.Tensor:
@@ -696,7 +696,7 @@ class MaxViT(nn.Module):
         """
         # wandb.log({'input_images_for_maxvit': wandb.Image(input)})  # channels last
         after_stem = self.stem(input)
-        # wandb.log({'after_stem': after_stem})
+        wandb.log({'after_stem': after_stem})
         return self.forward_head(self.forward_features(after_stem))
 
 # embed_dim is channels in stem stage
