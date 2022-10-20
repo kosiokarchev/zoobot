@@ -5,7 +5,7 @@ import argparse
 from sklearn.model_selection import train_test_split
 from pytorch_lightning.loggers import WandbLogger
 
-from pytorch_galaxy_datasets.prepared_datasets import decals_dr5_setup
+from pytorch_galaxy_datasets.prepared_datasets import decals_dr5_setup, legs_setup
 
 from zoobot.shared import label_metadata, schemas
 from zoobot.pytorch.training import train_with_pytorch_lightning
@@ -21,6 +21,7 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--experiment-dir', dest='save_dir', type=str)
     parser.add_argument('--data-dir', dest='data_dir', type=str)
+    parser.add_argument('--dataset', dest='dataset', type=str, default='decals_dr5')
     parser.add_argument('--architecture', dest='architecture_name', default='efficientnet', type=str)
     parser.add_argument('--resize-size', dest='resize_size',
                         type=int, default=224)
@@ -40,14 +41,25 @@ if __name__ == '__main__':
         format='%(asctime)s %(levelname)s: %(message)s'
     )
 
-    question_answer_pairs = label_metadata.decals_dr5_ortho_pairs  # decals dr5 only
-    dependencies = label_metadata.decals_ortho_dependencies
+    if args.dataset == 'decals_dr5':
+        logging.info('using decals dr5 dataset')
+        question_answer_pairs = label_metadata.decals_dr5_ortho_pairs  # decals dr5 only
+        dependencies = label_metadata.decals_ortho_dependencies
+
+        canonical_train_catalog, _ = decals_dr5_setup(root=args.data_dir, train=True, download=True)
+        canonical_test_catalog, _ = decals_dr5_setup(root=args.data_dir, train=False, download=True)
+
+    elif args.dataset == 'legs':
+        logging.info('using legs (labelled) dataset')
+        question_answer_pairs = label_metadata.decals_all_campaigns_ortho_pairs 
+        dependencies = label_metadata.decals_ortho_dependencies
+
+        canonical_train_catalog, _ = legs_setup(root=args.data_dir, split='train', download=False)
+        canonical_test_catalog, _ = legs_setup(root=args.data_dir, split='test', download=False)
+
+
     schema = schemas.Schema(question_answer_pairs, dependencies)
     logging.info('Schema: {}'.format(schema))
-
-    # use the setup() methods in pytorch_galaxy_datasets.prepared_datasets to get the canonical (i.e. standard) train and test catalogs
-    canonical_train_catalog, _ = decals_dr5_setup(root=args.data_dir, train=True, download=True)
-    canonical_test_catalog, _ = decals_dr5_setup(root=args.data_dir, train=False, download=True)
 
     train_catalog, val_catalog = train_test_split(canonical_train_catalog, test_size=0.1)
     test_catalog = canonical_test_catalog.copy()

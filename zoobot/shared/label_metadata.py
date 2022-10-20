@@ -219,7 +219,7 @@ gz2_and_decals_dependencies = {
     'something-odd': None  # actually neglects the artifact branch
 }
 
-
+# aka decals all campaigns (really need to rename)
 decals_ortho_dependencies = {
     # dr12
     'smooth-or-featured-dr12': None,

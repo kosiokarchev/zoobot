@@ -263,7 +263,8 @@ def get_plain_pytorch_zoobot_model(
         # TODO could optionally add a bottleneck layer here
         modules_to_use.append(efficientnet_custom.custom_top_dirichlet(representation_dim, output_dim))  # unlike tf version, not inplace
 
-    modules_to_use.append(custom_layers.WandBLog(log_string='output', batch_to_image=False))
+    # creates deadlock on multiple GPUs, only do if rank 1 (check env var)
+    # modules_to_use.append(custom_layers.WandBLog(log_string='output', batch_to_image=False))
 
     if weights_loc:
         raise NotImplementedError

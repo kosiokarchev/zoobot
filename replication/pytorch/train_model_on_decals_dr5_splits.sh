@@ -47,15 +47,21 @@ GPUS=2
 EXPERIMENT_DIR=$RESULTS_DIR/pytorch/dr5/${ARCHITECTURE}_maxvit_2xgpu
 
 DATA_DIR=/share/nas2/walml/repos/_data/decals_dr5
+DATASET=decals_dr5
+
+# DATA_DIR=/share/nas2/walml/repos/_data/legs
+# DATASET=legs
 
 $PYTHON $ZOOBOT_DIR/replication/pytorch/train_model_on_decals_dr5_splits.py \
     --experiment-dir $EXPERIMENT_DIR \
     --data-dir $DATA_DIR \
+    --dataset $DATASET \
     --architecture $ARCHITECTURE \
     --resize-size 224 \
     --batch-size $BATCH_SIZE \
     --gpus $GPUS \
-    --mixed-precision
+    --mixed-precision \
+    --debug
     
     #  \
     # --color
