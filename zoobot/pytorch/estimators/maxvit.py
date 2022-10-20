@@ -701,7 +701,7 @@ class MaxViT(nn.Module):
 
 # embed_dim is channels in stem stage
 maxvit_configs = {
-    'debug_224': dict(depths=(1, 1, 1, 1), channels=(16, 16, 16, 16), embed_dim=16),
+    'debug_224': dict(depths=(2, 2, 2, 2), channels=(16, 16, 16, 16), embed_dim=32),
     'tiniest_224': dict(depths=(2, 2, 5, 2), channels=(32, 32, 64, 64), embed_dim=32),
     'tinier_224': dict(depths=(2, 2, 5, 2), channels=(32, 64, 128, 128), embed_dim=64),
     'tiny_224': dict(depths=(2, 2, 5, 2), channels=(64, 128, 256, 512), embed_dim=64),
