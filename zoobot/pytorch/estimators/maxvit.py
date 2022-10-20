@@ -694,7 +694,7 @@ class MaxViT(nn.Module):
         Returns:
             output (torch.Tensor): Classification output of the shape [B, num_classes].
         """
-        wandb.log({'input_image': wandb.Image(input[0].transpose(0, 2))})  # channels last
+        # wandb.log({'input_image': wandb.Image(input[0].transpose(0, 2))})  # channels last
         after_stem = self.stem(input)
         wandb.log({'after_stem': after_stem})
         return self.forward_head(self.forward_features(after_stem))

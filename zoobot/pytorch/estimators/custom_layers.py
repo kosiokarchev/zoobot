@@ -18,7 +18,7 @@ class WandBLog(nn.Module):
     def forward(self, x) -> Tensor:
         if self.batch_to_image:
             # wandb.log({self.log_string: x.transpose(3, 1)})
-            wandb.log({self.log_string: wandb.Image(x[0].transpose(2, 0))})
+            wandb.log({self.log_string: wandb.Image(x)})
         else:    
             wandb.log({self.log_string: x})
         return x
