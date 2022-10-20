@@ -61,7 +61,7 @@ if __name__ == '__main__':
         test_catalog = test_catalog.sample(5000).reset_index(drop=True)
 
     wandb_logger = WandbLogger(
-        project='zoobot-pytorch-dr5-presplit-replication',
+        project='zoobot-pytorch-vit',
         name=os.path.basename(args.save_dir),
         log_model="all")
     # only rank 0 process gets access to the wandb.run object, and for non-zero rank processes: wandb.run = None
