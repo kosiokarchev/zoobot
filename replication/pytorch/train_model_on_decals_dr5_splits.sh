@@ -22,7 +22,7 @@ RESULTS_DIR=/share/nas2/walml/repos/gz-decals-classifiers/results
 
 ARCHITECTURE='maxvit:tiniest_224'
 BATCH_SIZE=64
-GPUS=1
+GPUS=2
 
 # ARCHITECTURE='efficientnet'
 # BATCH_SIZE=512
