@@ -238,6 +238,8 @@ def get_plain_pytorch_zoobot_model(
 
     modules_to_use = []
 
+    modules_to_use.append(custom_layers.WandBLog(log_string='input_images', batch_to_image=True))
+
     effnet = get_architecture(
         input_channels=channels,
         # TODO this arg will break resnet, at the moment - needs tweaking
@@ -260,6 +262,8 @@ def get_plain_pytorch_zoobot_model(
         modules_to_use.append(dropout_layer(dropout_rate))
         # TODO could optionally add a bottleneck layer here
         modules_to_use.append(efficientnet_custom.custom_top_dirichlet(representation_dim, output_dim))  # unlike tf version, not inplace
+
+    modules_to_use.append(custom_layers.WandBLog(log_string='output', batch_to_image=False))
 
     if weights_loc:
         raise NotImplementedError

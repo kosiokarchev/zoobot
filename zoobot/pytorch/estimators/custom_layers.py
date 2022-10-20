@@ -1,37 +1,24 @@
 
-
-from torch import Tensor, nn, functional
-
-
-# this would be more elegant, but sadly using a stack with multiple sequential models 
-# (as opposed to some layers, then a sequential model) 
-# seems to silently break loading weights
-
-# class CustomPreprocessing(tf.keras.Sequential):
-#     def call(self, x, training):
-#         # I add the step manually to the top-level model, but this inner model won't have that same var - could add if needed
-#         x = super().call(x, training=True)  # always use training=True
-#         tf.summary.image('after_preprocessing_layers', x, step=0)
-#         return x
-
+import wandb
+from torch import Tensor, nn
 
 class PermaDropout(nn.modules.dropout._DropoutNd):
     # https://pytorch.org/docs/stable/_modules/torch/nn/modules/dropout.html#Dropout
-    def forward(self, input: Tensor) -> Tensor:
+    def forward(self, x: Tensor) -> Tensor:
             return nn.functional.dropout(input, self.p, True, self.inplace)  # simply replaced self.training with True
 
-# # class PermaRandomTranslation(layers.experimental.preprocessing.RandomTranslation):
-# #     def call(self, x, training=None):
-# #         return super().call(x, training=True)
+class WandBLog(nn.Module):
 
-# class PermaRandomRotation(tf.keras.layers.experimental.preprocessing.RandomRotation):
-#     def call(self, x, training=None):
-#         return super().call(x, training=True)
+    def __init__(self, log_string, batch_to_image=False):
+        super().__init__()
+        self.log_string = log_string
+        self.batch_to_image = batch_to_image
 
-# class PermaRandomFlip(tf.keras.layers.experimental.preprocessing.RandomFlip):
-#     def call(self, x, training=None):
-#         return super().call(x, training=True)
-
-# class PermaRandomCrop(tf.keras.layers.experimental.preprocessing.RandomCrop):
-#     def call(self, x, training=None):
-#         return super().call(x, training=True)
+    # log and then return
+    def forward(self, x) -> Tensor:
+        if self.batch_to_image:
+            wandb.log({self.log_string: x.transpose(3, 1)})
+            # wandb.log({self.log_string: x[0].transpose(2, 0)})
+        else:    
+            wandb.log({self.log_string: x})
+        return x
