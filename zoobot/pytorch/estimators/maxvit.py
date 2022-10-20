@@ -701,7 +701,7 @@ class MaxViT(nn.Module):
 
 
 maxvit_configs = {
-    'tiniest_224': dict(depths=(2, 2, 5, 2), channels=(32, 32, 64, 64), embed_dim=32),
+    'tiniest_224': dict(depths=(2, 2, 5, 2), channels=(32, 32, 64, 64), embed_dim=64),
     'tinier_224': dict(depths=(2, 2, 5, 2), channels=(32, 64, 128, 128), embed_dim=64),
     'tiny_224': dict(depths=(2, 2, 5, 2), channels=(64, 128, 256, 512), embed_dim=64),
     'small_224': dict(depths=(2, 2, 5, 2), channels=(96, 128, 256, 512), embed_dim=64),
